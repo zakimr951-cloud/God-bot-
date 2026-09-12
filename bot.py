@@ -683,67 +683,57 @@ async def show_items(
         2,
     ):
 
+    # ============================================================
+    # REPLY KEYBOARD ITEMS UI
+    # ============================================================
+
+    buttons = []
+
+    # 6 items = 3 rows × 2 columns
+    for i in range(0, len(rows), 2):
         row = []
 
         for item in rows[i:i + 2]:
-
             row.append(
-                InlineKeyboardButton(
-                    f"🎁 {item['name']}",
-                    callback_data=f"item_{item['id']}",
+                KeyboardButton(
+                    f"🎁 {item['name']}"
                 )
             )
 
         buttons.append(row)
 
-    # Navigation.
+    # Navigation
     navigation = []
 
     if page > 0:
-
         navigation.append(
-            InlineKeyboardButton(
-                "⬅️ Previous",
-                callback_data=f"items_{page - 1}",
-            )
+            KeyboardButton("⬅️ PREVIOUS")
         )
 
-    if (
-        (page + 1) * ITEMS_PER_PAGE
-        < total
-    ):
-
+    if (page + 1) * ITEMS_PER_PAGE < total:
         navigation.append(
-            InlineKeyboardButton(
-                "Next ➡️",
-                callback_data=f"items_{page + 1}",
-            )
+            KeyboardButton("NEXT ➡️")
         )
 
     if navigation:
         buttons.append(navigation)
 
+    # Back button
     buttons.append(
-        [
-            InlineKeyboardButton(
-                "🔙 Back",
-                callback_data="items_back",
-            )
-        ]
+        [KeyboardButton("🔙 BACK")]
     )
 
     if total == 0:
-
         text = (
             "🎁 <b>ITEMS</b>\n\n"
             "❌ No items available right now."
         )
 
     else:
-
         total_pages = (
-            total + ITEMS_PER_PAGE - 1
-        ) // ITEMS_PER_PAGE
+            (total + ITEMS_PER_PAGE - 1)
+            // ITEMS_PER_PAGE
+        )
 
         text = (
             "🎁 <b>ITEMS</b>\n\n"
@@ -754,9 +744,11 @@ async def show_items(
     await update.effective_message.reply_text(
         text,
         parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(buttons),
+        reply_markup=ReplyKeyboardMarkup(
+            buttons,
+            resize_keyboard=True
+        )
     )
-
 
 # ============================================================
 # ITEM DETAILS
