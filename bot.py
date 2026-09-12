@@ -686,11 +686,10 @@ async def show_items(
     # ============================================================
     # REPLY KEYBOARD ITEMS UI
     # ============================================================
-
     buttons = []
 
     # 6 items = 3 rows × 2 columns
-    for i   in range(0, len(rows), 2):
+    for i in range(0, len(rows), 2):
         row = []
 
         for item in rows[i:i + 2]:
@@ -749,7 +748,7 @@ async def show_items(
             resize_keyboard=True
         )
     )
-
+ 
 # ============================================================
 # ITEM DETAILS
 # ============================================================
